@@ -32,7 +32,7 @@ public class ActivityService {
                 .duration(request.getDuration())
                 .caloriesBurned(request.getCaloriesBurned())
                 .startTime(request.getStartTime())
-                .additionalMatrix(request.getAdditionalMatrix())
+                .additionalMetrics(request.getAdditionalMetrics())
                 .build();
         Activity savedActivity = activityRepository.save(activity);
         try {
@@ -53,7 +53,7 @@ public class ActivityService {
         response.setDuration(activity.getDuration());
         response.setCaloriesBurned(activity.getCaloriesBurned());
         response.setStartTime(activity.getStartTime());
-        response.setAdditionalMatrix(activity.getAdditionalMatrix());
+        response.setAdditionalMetrics(activity.getAdditionalMetrics());
         response.setCreatedAt(activity.getCreatedAt());
         response.setUpdatedAt(activity.getUpdatedAt());
         return response;

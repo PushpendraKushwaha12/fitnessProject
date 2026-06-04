@@ -17,6 +17,7 @@ public class ActivityAiService {
         log.info("RESPONSE FROM AI {} ", geminiService.getRecommendation(prompt));
     }
 
+
     private String createPromptForActivity(Activity activity) {
         return String.format("""
                         Analyze this fitness activity and provide detailed recommendations in the following EXACT JSON format:
@@ -49,7 +50,7 @@ public class ActivityAiService {
                         Activity Type: %s
                         Duration: %d minutes
                         Calories Burned: %d
-                        Additional Matrix: %s
+                        Additional Metrics: %s
                         
                         Provide detailed analysis focusing on performance, improvements, next workout suggestions, and safety guidelines.
                         Ensure the response follows the EXACT JSON format shown above.
@@ -57,7 +58,7 @@ public class ActivityAiService {
                 activity.getType(),
                 activity.getDuration(),
                 activity.getCaloriesBurned(),
-                activity.getAdditionalMatrix()
+                activity.getAdditionalMetrics()
         );
     }
 }

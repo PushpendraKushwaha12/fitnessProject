@@ -26,7 +26,7 @@ public class Activity {
     private LocalDateTime startTime;;
 
     @Field("metrics")
-    private Map<String, Object> additionalMatrix;
+    private Map<String, Object> additionalMetrics;
 
     @CreatedDate
     private LocalDateTime createdAt;
