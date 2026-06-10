@@ -1,6 +1,8 @@
 package com.fitness.aiservice.service;
 
 import com.fitness.aiservice.models.Activity;
+import com.fitness.aiservice.models.Recommendation;
+import com.fitness.aiservice.repository.RecommendationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,11 +14,14 @@ import org.springframework.stereotype.Service;
 public class ActivityMessageListener {
 
     private final ActivityAiService activityAiService;
+    private final RecommendationRepository recommendationRepository;
 
     @KafkaListener(topics = "${kafka.topic.name}",groupId = "activity-processor-group")
     public void processActivity(Activity activity){
         log.info("Received Activity for processing: {}", activity.getUserId());
-        activityAiService.generateRecommendation(activity);
-        log.info("AI recommendation method completed");
+        Recommendation recommendation = activityAiService.generateRecommendation(activity);
+        System.out.println("Saving recommendation: " + recommendation);
+        Recommendation saved = recommendationRepository.save(recommendation);
+        log.info("Saved Recommendation: {}", saved);
     }
 }

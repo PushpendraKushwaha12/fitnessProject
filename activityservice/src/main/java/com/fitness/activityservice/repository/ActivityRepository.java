@@ -1,7 +1,7 @@
 package com.fitness.activityservice.repository;
 
 import com.fitness.activityservice.models.Activity;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ActivityRepository extends MongoRepository<Activity, String> {
+public interface ActivityRepository extends JpaRepository<Activity, String> {
 }

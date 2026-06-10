@@ -4,11 +4,20 @@ server:
 spring:
   application:
     name: aiservice
+  datasource:
+    url: jdbc:postgresql://localhost:5432/microservices
+    username: postgres
+    password: test
+    driver-class-name: org.postgresql.Driver
 
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/airecommendationfitness
-      database: airecommendationfitness
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
     bootstrap-servers: localhost:9092

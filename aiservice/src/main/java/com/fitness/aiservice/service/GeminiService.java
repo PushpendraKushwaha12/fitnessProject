@@ -24,35 +24,8 @@ public class GeminiService {
         this.webClient = webClientBuilder.build();
     }
 
-//    public String getRecommendation(String details) {
-//        try {
-//            Map<String, Object> requestBody = Map.of(
-//                    "contents", new Object[]{
-//                            Map.of("parts", new Object[]{
-//                                    Map.of("text", details)
-//                            })
-//                    }
-//            );
-//            return webClient.post()
-//                    .uri(geminiApiUrl + "?key=" + geminiApiKey)
-//                    .header("Content-Type", "application/json")
-//                    .bodyValue(requestBody)
-//                    .retrieve()
-//                    .bodyToMono(String.class)
-//                    .block();
-//        } catch (WebClientResponseException.TooManyRequests e) {
-//            log.error("Gemini API limit exceeded. Try after some time.");
-//            return "Gemini API limit exceeded. Please try after some time.";
-//        } catch (Exception e) {
-//            log.error("Gemini API error", e);
-//            return "Gemini API error occurred.";
-//        }
-//    }
-
     public String getRecommendation(String details) {
-
         try {
-
             Map<String, Object> requestBody = Map.of(
                     "contents", new Object[]{
                             Map.of("parts", new Object[]{
@@ -60,51 +33,20 @@ public class GeminiService {
                             })
                     }
             );
-
             return webClient.post()
-                    .uri(geminiApiUrl + "?key=" + geminiApiKey)
+                    .uri(geminiApiUrl)// + "?key=" + geminiApiKey)
                     .header("Content-Type", "application/json")
+                    .header("x-goog-api-key", geminiApiKey)
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
-
         } catch (WebClientResponseException.TooManyRequests e) {
-
-            log.error("Gemini quota exceeded. Using mock response.");
-
-            return """
-        {
-          "analysis": {
-            "overall": "Good running performance",
-            "pace": "Maintain current pace",
-            "heartRate": "Heart rate is in healthy range",
-            "caloriesBurned": "Good calorie burn"
-          },
-          "improvements": [
-            {
-              "area": "Endurance",
-              "recommendation": "Increase running duration slowly week by week"
-            }
-          ],
-          "suggestions": [
-            {
-              "workout": "Interval Running",
-              "description": "Run fast for 1 minute and slow jog for 2 minutes"
-            }
-          ],
-          "safety": [
-            "Warm up before running",
-            "Stay hydrated"
-          ]
-        }
-        """;
-
+            log.error("Gemini API limit exceeded. Try after some time.");
+            return "Gemini API limit exceeded. Please try after some time.";
         } catch (Exception e) {
-
-            log.error("Gemini Error", e);
-
-            return "Gemini Error";
+            log.error("Gemini API error", e);
+            return "Gemini API error occurred.";
         }
     }
 }
