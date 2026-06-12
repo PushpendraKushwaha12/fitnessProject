@@ -24,7 +24,11 @@ public class ActivityAiService {
     public Recommendation generateRecommendation(Activity activity) {
         String prompt = createPromptForActivity(activity);
         String aiResponse = geminiService.getRecommendation(prompt);
-        log.info("RESPONSE FROM AI {} ", aiResponse);
+
+        if (aiResponse == null || aiResponse.isBlank() || !aiResponse.trim().startsWith("{")) {
+            log.error("Invalid Gemini response: {}", aiResponse);
+            return createDefaultRecommendation(activity);
+        }
         return processAiResponse(activity,aiResponse);
     }
 
@@ -149,7 +153,7 @@ public class ActivityAiService {
                           },
                           "improvements": [
                             {
-                              "area": "Area name"
+                              "area": "Area name",
                               "recommendation": "Detailed recommendation"
                             }
                           ],

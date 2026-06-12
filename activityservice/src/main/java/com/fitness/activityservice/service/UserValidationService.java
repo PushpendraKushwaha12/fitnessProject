@@ -21,7 +21,7 @@ public class UserValidationService {
                     .bodyToMono(Boolean.class)
                     .block());
         } catch (WebClientResponseException e) {
-            System.out.println("User validation failed: " + e.getStatusCode());
+            log.info("User validation failed:{}", e.getStatusCode());
             System.out.println(e.getResponseBodyAsString());
         }
         return false;

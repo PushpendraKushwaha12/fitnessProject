@@ -5,12 +5,14 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.models.Activity;
 import com.fitness.activityservice.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ActivityService {
 
     private final ActivityRepository activityRepository;
@@ -37,9 +39,9 @@ public class ActivityService {
         Activity savedActivity = activityRepository.save(activity);
         try {
             kafkaTemplate.send(topicName, savedActivity.getUserId(), savedActivity);
-            System.out.println("Message sent to Kafka");
+            log.info("Message sent to Kafka");
         } catch (Exception e) {
-            System.out.println("Error sending activity to topic: "+ e.getMessage());
+            log.info("Error sending activity to topic: {}", e.getMessage());
         }
 
         return mapToResponse(savedActivity);

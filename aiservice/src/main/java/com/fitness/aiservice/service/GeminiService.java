@@ -43,7 +43,10 @@ public class GeminiService {
                     .block();
         } catch (WebClientResponseException.TooManyRequests e) {
             log.error("Gemini API limit exceeded. Try after some time.");
-            return "Gemini API limit exceeded. Please try after some time.";
+            return null;
+        } catch (WebClientResponseException.ServiceUnavailable ex) {
+            log.error("Gemini API unavailable. Try after some time.");
+            return null;
         } catch (Exception e) {
             log.error("Gemini API error", e);
             return "Gemini API error occurred.";
